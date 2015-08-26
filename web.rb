@@ -3,10 +3,10 @@ require 'sinatra'
 require 'ipaddr'
 require 'httpclient'
 
-CLOUDFLARE_EMAIL = ENV["X-Auth-Email"]
-CLOUDFLARE_AUTH = ENV["X-Auth-Key"]
+X_AUTH_EMAIL = ENV["X-Auth-Email"]
+X_AUTH_KEY = ENV["X-Auth-Key"]
 
-raise "Invalid Credentials" unless CLOUDFLARE_AUTH.to_s.length > 0 && CLOUDFLARE_EMAIL.to_s.length > 0
+raise "Invalid Credentials" unless X_AUTH_KEY.to_s.length > 0 && X_AUTH_EMAIL.to_s.length > 0
 
 CLOUDFLARE_ZONE = ENV["CLOUDFLARE_ZONE"]
 CLOUDFLARE_RECORD = ENV["CLOUDFLARE_RECORD"]
@@ -22,6 +22,11 @@ get '/' do
     
     HTTPClient.new.request("PATCH",
       "https://api.cloudflare.com/client/v4/zones/#{CLOUDFLARE_ZONE}/dns_records/#{CLOUDFLARE_RECORD}",
-      :body => "{ \"content\": \"#{client_ip.to_s}\" }"
+      :headers => {
+        'Content-Type' => 'application/json',
+        'X-Auth-Email' => X_AUTH_EMAIL,
+        'X-Auth-Key' => X_AUTH_KEY,
+      },
+      :body => "{ \"content\": \"#{client_ip.to_s}\" }",
       ).body
 end
