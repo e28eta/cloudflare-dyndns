@@ -22,7 +22,7 @@ get '/' do
     
     HTTPClient.new.request("PATCH",
       "https://api.cloudflare.com/client/v4/zones/#{CLOUDFLARE_ZONE}/dns_records/#{CLOUDFLARE_RECORD}",
-      :headers => {
+      :header => {
         'Content-Type' => 'application/json',
         'X-Auth-Email' => X_AUTH_EMAIL,
         'X-Auth-Key' => X_AUTH_KEY,
