@@ -7,7 +7,7 @@ raise "Invalid Credentials" unless CLOUDFLARE_AUTH.to_s.length > 0 && CLOUDFLARE
 
 get '/' do
     local_auth = params["api-key"]
-    raise "Invalid api-key" unless local_auth == "foo"
+    halt 403, "Invalid api-key" unless local_auth == "foo"
     
     
     
