@@ -13,9 +13,13 @@ CLOUDFLARE_RECORD = ENV["CLOUDFLARE_RECORD"]
 
 raise "Requires non-empty zone & record" unless CLOUDFLARE_ZONE.to_s.length > 0 && CLOUDFLARE_RECORD.to_s.length > 0
 
+LOCAL_API_KEY = ENV["LOCAL_API_KEY"]
+
+raise "Requires LOCAL_API_KEY to control access" unless LOCAL_API_KEY.to_s.length > 0
+
 get '/' do
     local_auth = params["api-key"]
-    halt 403, "Invalid api-key" unless local_auth == "6DCE6374-7C16-40E6-BEB2-3EABEF5A68D9"
+    halt 403, "Invalid api-key" unless local_auth == LOCAL_API_KEY
     
     client_ip = IPAddr.new(request.ip)
     halt 400, "Must be IPv4 request address" unless client_ip.ipv4?
