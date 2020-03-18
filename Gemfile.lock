@@ -3,7 +3,7 @@ GEM
   specs:
     httpclient (2.6.0.1)
     rack (1.6.13)
-    rack-protection (1.5.3)
+    rack-protection (1.5.5)
       rack
     sinatra (1.4.6)
       rack (~> 1.4)
